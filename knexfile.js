@@ -8,14 +8,12 @@ module.exports = {
       min: 2,
       max: 10
     },
-    ssl: true,
     migrations: {
       tableName: 'knex_migrations'
     }
   },
   test: {
     client: 'pg',
-    ssl: true,
     connection: config.get('db.connection'),
     seeds: {
       directory: `${__dirname}/seeds/test`

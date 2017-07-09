@@ -1,5 +1,5 @@
 {
   "db": {
-    "connection": "postgres://irgolmrfxkdbfc:87f008416ea839dd5c1fe91a5e47564111bf40adf1738a0a5d9691a260b32109@ec2-23-21-220-152.compute-1.amazonaws.com:5432/ddg7habcrjs5ua?ssl=true"
+    "connection": "DATABASE_URL"
   }
 }

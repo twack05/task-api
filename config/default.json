@@ -1,4 +1,6 @@
 {
   "port": 3000,
-  "debug": true
+  "debug": true,
+  "FACEBOOK_APP_ID": "1375171656114894",
+  "FACEBOOK_APP_SECRET": "cd9660755aeb48cd0a2b490eba416eeb"
 }

@@ -13,6 +13,9 @@
     "start": "node index.js",
     "postinstall": "./node_modules/knex/bin/cli.js migrate:latest"
   },
+  "pre-commit": [
+    "test"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -37,6 +40,7 @@
     "chai-http": "^3.0.0",
     "kocha": "^1.8.0",
     "nyc": "^11.0.3",
+    "pre-commit": "^1.2.2",
     "standard": "^10.0.2"
   }
 }

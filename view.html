@@ -6,8 +6,9 @@
 <script>
   logInWithFacebook = function() {
     FB.login(function(response) {
+      console.log(response)
       if (response.authResponse) {
-        document.getElementById('console').innerHTML = response.authResponse.access_token
+        document.getElementById('console').innerHTML = response.authResponse.accessToken
       } else {
         alert('User cancelled login or did not fully authorize.');
       }

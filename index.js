@@ -66,6 +66,7 @@ try {
   }
 
   app.use(function (err, req, res, next) {
+    winston.error(err)
     if (err.source === 'validation') {
       res.status(400).json(err)
     } else if (err.source === 'auth') {

@@ -79,6 +79,11 @@ try {
     }
   })
 
+  const path = require('path')
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'view.html'))
+  })
+
   app.get('/state', (req, res) => {
     res.end('running')
   })

@@ -1,5 +1,4 @@
 const moment = require('moment')
-
 module.exports = {
   async getAll (req, res) {
     try {

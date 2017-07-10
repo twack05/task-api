@@ -6,6 +6,7 @@ module.exports = function (app, passport, models) {
     clientID: config.get('FACEBOOK_APP_ID'),
     clientSecret: config.get('FACEBOOK_APP_SECRET')
   }, async (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
     const user = await models.user.findOrCreateByFB(profile)
     done(null, user)
   }))

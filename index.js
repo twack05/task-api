@@ -33,9 +33,9 @@ try {
   app.use(passport.initialize())
   app.use(passport.session())
   passport.serializeUser((user, done) => done(null, user.id))
-  passport.deserializeUser(async function(id, done) {
+  passport.deserializeUser(async function (id, done) {
     try {
-      let user = await models.user.forge({Id: id}).fetch({require: true})
+      let user = await models.user.forge({id}).fetch({require: true})
       done(null, user.toJSON())
     } catch (e) {
       done(e.stack)

@@ -14,10 +14,7 @@ module.exports = {
   },
   test: {
     client: 'pg',
-    connection: config.get('db.connection'),
-    seeds: {
-      directory: `${__dirname}/seeds/test`
-    }
+    connection: config.get('db.connection')
   },
   production: {
     client: 'postgresql',

@@ -23,13 +23,13 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com',
-            Password: 'testpassword'
+            email: 'test@user.com',
+            password: 'testpassword'
           })
           .end((err, res) => {
             expect(err).eq(null)
             expect(res.body.ok).eq(true)
-            expect(res.body.Token).to.not.eq(undefined)
+            expect(res.body.token).to.not.eq(undefined)
             done()
           })
       )
@@ -39,13 +39,13 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com@',
-            Password: 'testpassword'
+            email: 'test@user.com@',
+            password: 'testpassword'
           })
           .end((err, res) => {
             expect(err).to.not.eq(null)
             expect(res.status).eq(400)
-            expect(res.body.Email).to.be.deep.equal({ isEmail: 'failed' })
+            expect(res.body.email).to.be.deep.equal({ isEmail: 'failed' })
             done()
           })
       )
@@ -55,12 +55,12 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Password: 'testpassword'
+            password: 'testpassword'
           })
           .end((err, res) => {
             expect(err).to.not.eq(null)
             expect(res.status).eq(400)
-            expect(res.body.Email).to.be.deep.equal({ isEmail: 'failed' })
+            expect(res.body.email).to.be.deep.equal({ isEmail: 'failed' })
             done()
           })
       )
@@ -70,20 +70,20 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com',
-            Password: 'testpassword'
+            email: 'test@user.com',
+            password: 'testpassword'
           })
           .end(() => {
             chai.request(server)
               .post('/users/signup')
               .send({
-                Email: 'test@user.com',
-                Password: 'testpassword'
+                email: 'test@user.com',
+                password: 'testpassword'
               })
               .end((err, res) => {
                 expect(err).to.not.eq(null)
                 expect(res.status).eq(400)
-                expect(res.body.Email).to.be.deep.equal({ unique: 'failed' })
+                expect(res.body.email).to.be.deep.equal({ unique: 'failed' })
                 done()
               })
           })
@@ -94,12 +94,12 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com'
+            email: 'test@user.com'
           })
           .end((err, res) => {
             expect(err).to.not.eq(null)
             expect(res.status).eq(400)
-            expect(res.body.Password).to.be.deep.equal({ isEmpty: 'failed' })
+            expect(res.body.password).to.be.deep.equal({ isEmpty: 'failed' })
             done()
           })
       )
@@ -111,20 +111,20 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com',
-            Password: 'testpassword'
+            email: 'test@user.com',
+            password: 'testpassword'
           })
           .end(() => {
             chai.request(server)
               .post('/users/signin')
               .send({
-                Email: 'test@user.com',
-                Password: 'testpassword'
+                email: 'test@user.com',
+                password: 'testpassword'
               })
               .end((err, res) => {
                 expect(err).eq(null)
                 expect(res.body.ok).eq(true)
-                expect(res.body.Token).to.not.eq(undefined)
+                expect(res.body.token).to.not.eq(undefined)
                 done()
               })
           })
@@ -135,15 +135,15 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com',
-            Password: 'testpassword'
+            email: 'test@user.com',
+            password: 'testpassword'
           })
           .end(() => {
             chai.request(server)
               .post('/users/signin')
               .send({
-                Email: 'test2@user.com',
-                Password: 'testpassword'
+                email: 'test2@user.com',
+                password: 'testpassword'
               })
               .end((err, res) => {
                 expect(err).to.not.eq(null)
@@ -159,15 +159,15 @@ describe(`Users API`, () => {
         chai.request(server)
           .post('/users/signup')
           .send({
-            Email: 'test@user.com',
-            Password: 'testpassword'
+            email: 'test@user.com',
+            password: 'testpassword'
           })
           .end(() => {
             chai.request(server)
               .post('/users/signin')
               .send({
-                Email: 'test@user.com',
-                Password: 'wrong'
+                email: 'test@user.com',
+                password: 'wrong'
               })
               .end((err, res) => {
                 expect(err).to.not.eq(null)

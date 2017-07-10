@@ -5,13 +5,13 @@ const validatorMiddleware = require('../middleware/validate')
 module.exports = (controller) => router
   .get('/', authMiddleware, controller.getAll)
   .post('/', authMiddleware, validatorMiddleware({
-    Name: 'isEmpty',
-    Color: 'isEmpty',
-    Position: 'isInt'
+    name: 'isEmpty',
+    color: 'isEmpty',
+    position: 'isInt'
   }), controller.create)
   .put('/:id', authMiddleware, validatorMiddleware({
-    Name: 'isEmpty',
-    Color: 'isEmpty',
-    Position: 'isInt'
+    name: 'isEmpty',
+    color: 'isEmpty',
+    position: 'isInt'
   }), controller.update)
   .delete('/:id', authMiddleware, controller.delete)

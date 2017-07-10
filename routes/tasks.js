@@ -5,26 +5,26 @@ const validatorMiddleware = require('../middleware/validate')
 module.exports = (controller) => router
   .get('/', authMiddleware, controller.getAll)
   .post('/', authMiddleware, validatorMiddleware({
-    Category_id: 'isInt',
-    Title: 'isEmpty',
+    category_id: 'isInt',
+    title: 'isEmpty',
     amount: 'isInt',
-    Completed: 'isBoolean',
+    completed: 'isBoolean',
     days: 'isEmpty',
     repeating: 'isBoolean',
-    Start: 'isISO8601',
-    Finish: 'isISO8601',
+    start: 'isISO8601',
+    finish: 'isISO8601',
     reminder: 'isInt',
     autoTrack: 'isBoolean'
   }), controller.create)
   .put('/:id', authMiddleware, validatorMiddleware({
-    Category_id: 'isEmpty',
-    Title: 'isEmpty',
+    category_id: 'isEmpty',
+    title: 'isEmpty',
     amount: 'isInt',
-    Completed: 'isEmpty',
+    completed: 'isEmpty',
     days: 'isEmpty',
     repeating: 'isEmpty',
-    Start: 'isEmpty',
-    Finish: 'isEmpty',
+    start: 'isEmpty',
+    finish: 'isEmpty',
     reminder: 'isEmpty',
     autoTrack: 'isEmpty'
   }), controller.update)

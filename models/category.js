@@ -1,8 +1,7 @@
 module.exports = function (bookshelf) {
   const Category = bookshelf.Model.extend(
     {
-      tableName: 'categories',
-      idAttribute: 'Id'
+      tableName: 'categories'
     }
   )
   return Category

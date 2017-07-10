@@ -5,8 +5,6 @@ module.exports = async function (req, res, next) {
       error: 'Header Authorization is absent'
     })
   }
-// fad56909-2622-49f9-a40c-61e0650db9f0
-// cbccc993-ada3-47c8-ab38-0f42088e5cce
   let token = req.headers.authorization.split('Bearer ')[1]
   if (!token) {
     return next({
@@ -14,8 +12,7 @@ module.exports = async function (req, res, next) {
       error: 'Token is absent'
     })
   }
-
-  const user = await req.models.user.forge({Token: token}).fetch()
+  const user = await req.models.user.forge({token}).fetch()
   if (!user) {
     return next({
       source: 'auth',

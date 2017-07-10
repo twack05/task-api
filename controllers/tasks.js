@@ -3,7 +3,7 @@ const moment = require('moment')
 module.exports = {
   async getAll (req, res) {
     try {
-      const tasks = await req.models.tasks.forge().where('User_id', req.user.Id).fetchAll()
+      const tasks = await req.models.task.forge().where('user_id', req.user.id).fetchAll()
       res.json({
         data: tasks.toJSON()
       })
@@ -14,33 +14,36 @@ module.exports = {
   },
   async create (req, res) {
     try {
-      const category = await req.models.category.forge({Id: req.body.Category_id}).fetch()
-
-      if (category.get('User_id') !== req.user.Id) {
+      const category = await req.models.category.forge({id: req.body.category_id}).fetch()
+      if (category === null) {
+        return res.status(400).send(`Category with id ${req.body.category_id} doesn't exist`)
+      }
+      if (category.get('user_id') !== req.user.id) {
         return res.status(403).send('You don\'t have access to this category')
       }
 
-      if (moment(req.body.Start).isAfter(moment(req.body.Finish))) {
+      if (moment(req.body.start).isAfter(moment(req.body.finish))) {
         return res.status(400).json({
-          Start: {
+          start: {
             beforeFinish: 'failed'
           }
         })
       }
       const task = req.models.task.forge({
-        User_id: req.user.Id,
-        Category_id: req.body.Category_id,
-        Title: req.body.Title,
+        user_id: req.user.id,
+        category_id: req.body.category_id,
+        title: req.body.title,
         amount: req.body.amount,
-        Completed: req.body.Completed,
+        completed: req.body.completed,
         days: req.body.days,
         repeating: req.body.repeating,
-        Start: req.body.Start,
-        Finish: req.body.Finish,
+        start: req.body.start,
+        finish: req.body.finish,
         reminder: req.body.reminder,
         autoTrack: req.body.autoTrack
       })
       await task.save()
+      await task.fetch()
       res.json({
         ok: true,
         data: task.toJSON()
@@ -52,32 +55,45 @@ module.exports = {
   },
   async update (req, res) {
     try {
-      const existingTask = await req.models.task.forge({Id: req.body.Category_id}).fetch()
-      if (existingTask.get('User_id') !== req.user.Id) {
+      const id = req.params.id
+      const existingTask = await req.models.task.forge({id}).fetch()
+      if (existingTask === null) {
+        return res.status(404).send(`Task with id ${id} doesn't exist`)
+      }
+      if (existingTask.get('user_id') !== req.user.id) {
         return res.status(403).send('You don\'t have access to this task')
       }
-
-      if (moment(req.body.Start).isAfter(moment(req.body.Finish))) {
+      const category = await req.models.category.forge({id: req.body.category_id}).fetch()
+      if (category === null) {
+        return res.status(400).send(`Category with id ${req.body.category_id} doesn't exist`)
+      }
+      if (category.get('user_id') !== req.user.id) {
+        return res.status(403).send('You don\'t have access to this category')
+      }
+      if (moment(req.body.start).isAfter(moment(req.body.finish))) {
         return res.status(400).json({
-          Start: {
+          start: {
             beforeFinish: 'failed'
           }
         })
       }
       const task = req.models.task.forge({
-        User_id: req.user.Id,
-        Category_id: req.body.Category_id,
-        Title: req.body.Title,
+        id,
+        user_id: req.user.id,
+        category_id: req.body.category_id,
+        title: req.body.title,
         amount: req.body.amount,
-        Completed: req.body.Completed,
+        completed: req.body.completed,
         days: req.body.days,
         repeating: req.body.repeating,
-        Start: req.body.Start,
-        Finish: req.body.Finish,
+        start: req.body.start,
+        finish: req.body.finish,
         reminder: req.body.reminder,
+        lastUpdated: moment().toISOString(),
         autoTrack: req.body.autoTrack
       })
       await task.save()
+      await task.fetch()
       res.json({
         ok: true,
         data: task.toJSON()
@@ -89,12 +105,14 @@ module.exports = {
   },
   async delete (req, res) {
     try {
-      const Id = req.params.id
-      const existingTask = await req.models.task.forge({Id: req.body.Category_id}).fetch()
-      if (existingTask.get('User_id') !== req.user.Id) {
+      const id = req.params.id
+      const task = await req.models.task.forge({id}).fetch()
+      if (task === null) {
+        return res.status(404).send(`Task with id ${id} doesn't exist`)
+      }
+      if (task.get('user_id') !== req.user.id) {
         return res.status(403).send('You don\'t have access to this task')
       }
-      const task = req.models.task.forge({Id})
       await task.destroy()
       res.json({
         ok: true

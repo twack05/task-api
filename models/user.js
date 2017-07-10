@@ -5,20 +5,20 @@ module.exports = function (bookshelf) {
   return bookshelf.Model.extend(
     {
       tableName: 'users',
-      idAttribute: 'Id',
+      idAttribute: 'id',
       format (attrs) {
-        if (attrs.Email) {
-          attrs.Email = attrs.Email.trim().toLowerCase()
+        if (attrs.email) {
+          attrs.email = attrs.email.trim().toLowerCase()
         }
         return attrs
       },
       checkPassword (password) {
-        return this.get('Password_hash') === generatePassword(password, this.get('salt'))
+        return this.get('password_hash') === generatePassword(password, this.get('salt'))
       },
       setPassword (password) {
         this.set('salt', generateSalt())
-        this.set('Token', generateSalt())
-        this.set('Password_hash', generatePassword(password, this.get('salt')))
+        this.set('token', generateSalt())
+        this.set('password_hash', generatePassword(password, this.get('salt')))
       }
     }
   )

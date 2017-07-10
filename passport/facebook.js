@@ -10,17 +10,18 @@ module.exports = function (app, passport, models) {
     const user = await models.user.findOrCreateByFB(profile)
     done(null, user)
   }))
-  app.get('/users/facebook', (req, res, next) => {
-    if (!req.query.access_token) {
-      return next({
-        access_token: {
-          isEmpty: 'failed'
-        },
-        source: 'validation'
-      })
-    }
-    next()
-  },
+  app.get('/users/facebook',
+    (req, res, next) => {
+      if (!req.query.access_token) {
+        return next({
+          access_token: {
+            isEmpty: 'failed'
+          },
+          source: 'validation'
+        })
+      }
+      next()
+    },
     passport.authenticate('facebook-token'), (req, res) => {
       res.json({
         ok: true,

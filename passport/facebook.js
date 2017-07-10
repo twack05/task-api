@@ -1,16 +1,11 @@
 const config = require('config')
 const FacebookTokenStrategy = require('passport-facebook-token')
 
-console.log({
-  clientID: config.get('FACEBOOK_APP_ID'),
-  clientSecret: config.get('FACEBOOK_APP_SECRET')
-})
 module.exports = function (app, passport, models) {
   passport.use(new FacebookTokenStrategy({
     clientID: config.get('FACEBOOK_APP_ID'),
     clientSecret: config.get('FACEBOOK_APP_SECRET')
   }, async (accessToken, refreshToken, profile, done) => {
-    console.log(profile)
     const user = await models.user.findOrCreateByFB(profile)
     done(null, user)
   }))

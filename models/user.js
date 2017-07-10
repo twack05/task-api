@@ -2,7 +2,7 @@ const crypto = require('crypto')
 const uuid = require('uuid')
 
 module.exports = function (bookshelf) {
-  return bookshelf.Model.extend(
+  const User = bookshelf.Model.extend(
     {
       tableName: 'users',
       idAttribute: 'id',
@@ -20,8 +20,21 @@ module.exports = function (bookshelf) {
         this.set('token', generateSalt())
         this.set('password_hash', generatePassword(password, this.get('salt')))
       }
+    }, {
+      async findOrCreateByFB (profile) {
+        const existing = await new User({facebook_id: profile.id}).fetch()
+        if (existing !== null) return existing
+        const user = new User({
+          facebook_id: profile.id,
+          email: (profile.emails && profile.emails.length) ? profile.emails.pop().value : '',
+          token: generateSalt()
+        })
+        await user.save()
+        return user
+      }
     }
   )
+  return User
 }
 
 function generateSalt () {

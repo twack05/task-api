@@ -1,5 +1,7 @@
 {
   "port": "PORT",
+  "FACEBOOK_APP_ID": "FACEBOOK_APP_ID",
+  "FACEBOOK_APP_SECRET": "FACEBOOK_APP_SECRET",
   "db": {
     "connection": "DATABASE_URL?ssl=true"
   }

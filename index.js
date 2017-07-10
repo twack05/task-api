@@ -70,8 +70,11 @@ try {
       res.status(400).json(err)
     } else if (err.source === 'auth') {
       res.status(403).json(err)
+    } else
+    // facebook error
+    if (err.message === 'Failed to fetch user profile') {
+      res.status(403).json('Invalid access_token')
     } else {
-      req.logger.error(err.stack)
       res.status(500).send('Something is broken')
     }
   })
